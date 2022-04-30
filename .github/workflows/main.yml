@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
 
       # Runs a single command using the runners shell
       - name: Setup Node.js environment
@@ -34,14 +34,14 @@ jobs:
         run: npm install
       - name: build app
         run: npm run build
-      - name: copy dist file with scp
-        uses: appleboy/scp-action@v0.0.1
-        with: 
+      - name: Deploy to Aliyun
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env: 
           username: ${{ secrets.DEPLOY_USER }}
-          password: ${{ secrets.DEPLOY_PASSWORD }}
-          host: ${{ secrets.DEPLOY_HOST }}
+          ARGS: "-avzr --delete"
+          REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
           port: 22 
-          source: 'public/'
-          target: '/etc/public'
+          SOURCE: 'public/'
+          TARGET: '/etc/public'
           
       

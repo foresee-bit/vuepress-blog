@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[17],{587:function(t,n,s){"use strict";s.r(n);var i=s(15),e=Object(i.a)({},(function(){var t=this.$createElement,n=this._self._c||t;return n("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[n("p",[this._v("This is api.\napi1:加油哦.\napi2:测试一下.\napi3:再测试一下")])])}),[],!1,null,null,null);n.default=e.exports}}]);

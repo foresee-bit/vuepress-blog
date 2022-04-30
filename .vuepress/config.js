@@ -98,5 +98,5 @@ module.exports = {
   "markdown": {
     "lineNumbers": true
   },
-  base:"/vuepress-blog/"
+  base:"/"
 }

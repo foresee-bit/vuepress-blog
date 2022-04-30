@@ -27,19 +27,21 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.5.1
         with: 
-          node-version: '12'
-      - name: Run install and build
-        run: yarn && yarn build
-      - name: Deploy to Server
-        uses: hengkx/ssh-deploy@v1.0.1
+          node-version: '14.X'
+      - name: install deps
+        run: npm install
+      - name: build app
+        run: npm run build
+      - name: copy dist file with scp
+        uses: appleboy/scp-action@v0.0.1
         with: 
-          USERNAME: ${{ secrets.DEPLOY_USER }}
-          PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
-          HOST: ${{ secrets.DEPLOY_HOST }}
-          POTY: 22 // 默认就是22，但是之前没有写，不能成功。
-          SOURCE: 'public'
-          TARGET: '/etc/public'
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: 22 
+          source: 'public/'
+          target: '/etc/public'
           
       

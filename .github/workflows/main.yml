@@ -41,8 +41,8 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           ARGS: "-avzr --delete"
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
-          port: 22 
-          SOURCE: 'public/'
+          REMOTE_USER: "root"
+          SOURCE: './public'
           TARGET: '/etc/public'
           
       

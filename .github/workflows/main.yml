@@ -31,7 +31,7 @@ jobs:
         with: 
           node-version: '12'
       - name: Run install and build
-        run: npm install && npm run build
+        run: yarn && yarn build
       - name: Deploy to Server
         uses: hengkx/ssh-deploy@v1.0.1
         with: 

@@ -43,6 +43,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
           REMOTE_USER: "root"
           SOURCE: './public'
-          TARGET: '/opt/public'
+          TARGET: '/opt'
           
       

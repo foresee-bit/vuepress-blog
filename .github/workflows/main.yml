@@ -42,7 +42,7 @@ jobs:
           ARGS: "-avzr --delete"
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
           REMOTE_USER: "root"
-          SOURCE: './public'
-          TARGET: '/opt'
+          SOURCE: '/public'
+          TARGET: '/opt/'
           
       

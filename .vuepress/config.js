@@ -65,11 +65,11 @@ module.exports = {
     "blogConfig": {
       "category": {
         "location": 2,
-        "text": "Category"
+        "text": "分类"
       },
       "tag": {
         "location": 3,
-        "text": "Tag"
+        "text": "标签"
       }
     },
     "friendLink": [
@@ -92,7 +92,8 @@ module.exports = {
     "lastUpdated": "Last Updated",
     "author": "YDW",
     "authorAvatar": "/avatar.png",
-    "record": "xxxx",
+    "record": "蜀ICP备2022011185号",
+    "recordLink": "https://beian.miit.gov.cn",
     "startYear": "2017"
   },
   "markdown": {

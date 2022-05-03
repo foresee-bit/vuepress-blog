@@ -157,3 +157,129 @@ let tom: Person = {
 需要注意的是，**一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集**：
 
 上例中，任意属性的值允许是 `string`，但是可选属性 `age` 的值却是 `number`，`number` 不是 `string` 的子属性，所以报错了。
+
+一个接口中只能定义一个任意属性。如果接口中有多个类型的属性，则可以在任意属性中使用联合类型：
+
+```typescript
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string | number;
+}
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
+```
+
+#### 只读属性
+
+有时候我们希望对象中的一些字段只能在创建的时候被赋值，那么可以用 `readonly` 定义只读属性：
+
+```typescript
+interface Person {
+    readonly id: number;
+    name: string;
+    age?: number;
+    [propName: string]: any;
+}
+let tom: Person = {
+    id: 89757,
+    name: 'Tom',
+    gender: 'male'
+};
+tom.id = 9527;
+// index.ts(14,5): error TS2540: Cannot assign to 'id' because it is a constant or a read-only property.
+```
+
+**注意，只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候**：
+
+### 6. 数组的类型
+
+在TypeScript中，数组类型有多种定义方式，比较灵活。
+
+#### 类型 + 方括号 表示法
+
+```typescript
+let fibonacci: number[] = [1,2,3,4,5];
+```
+
+数组的一些方法的参数也会根据数组在定义时约定的类型进行限制：
+
+```typescript
+let fibonacci: number[] = [1,2,3,4,5];
+fibonacci.push('8');
+// Argument of type '"8"' is not assignable to parameter of type 'number'.
+```
+
+#### 数组泛型
+
+我们也可以使用数组泛型(Array Generic) 来表示数组：
+
+```typescript
+let fibonacci: Array<number> = [1,2,3,4,5];
+```
+
+#### 用接口表示数组
+
+```typescript
+interface NumberArray {
+    [index: number] : number;
+}
+let fibonacci: NumberArray = [1,2,3,4,5];
+```
+
+虽然接口也可以用来描述数组，但是我们一般不会这么做，因为这种方式比前两种方式复杂多了。
+
+不过有一种情况例外，那就是它常用来表示**类数组**。
+
+#### 类数组
+
+类数组（Array-like Object）不是数组类型，比如 `arguments`:
+
+```typescript
+function sum() {
+    let args: number[] = arguments;
+}
+// Type 'IArguments' is missing the following properties from type 'number[]': pop, push, concat, join, and 24 more.
+```
+
+上例中，`arguments` 实际上是一个类数组，不能用普通的数组的方式来描述，而应该用接口：
+
+```typescript
+function sum() {
+    let args: {
+        [index: number]: number;
+        length: number;
+        callee: Function;
+    } = arguments;
+}
+```
+
+事实上常用的类数组都有自己的接口定义，如 `IArguments`, `NodeList`, `HTMLCollection` 等：
+
+```typescript
+function sum() {
+    let args: IArguments = arguments;
+}
+```
+
+其中 `IArguments` 是 TypeScript 中定义好了的类型，它实际上就是：
+
+```typescript
+interface IArguments {
+    [index: number]: any;
+    length: number;
+    callee: Function;
+}
+```
+
+#### any在数组中的应用
+
+一个比较常见的做法是用`any`表示数组中允许出现任意类型：
+
+```typescript
+let list: any[] = ['xcatliu', 25, { website: 'http://xcatliu.com' }];
+```
+

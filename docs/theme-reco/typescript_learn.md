@@ -283,3 +283,113 @@ interface IArguments {
 let list: any[] = ['xcatliu', 25, { website: 'http://xcatliu.com' }];
 ```
 
+### 7. 函数的类型
+
+#### 函数声明
+
+在JavaScript中，有两种常见的定义函数的方式——函数声明(Function Declaration) 和函数表达式（Function Expression).
+
+```typescript
+//函数声明
+function sum(x,y){
+    return x + y;
+}
+//函数表达式
+let mySum = function(x,y) {
+    return x + y;
+}
+```
+
+在TypeScript中，需要把输入和输出都考虑到，函数声明的定义如下：
+
+```typescript
+function sum (x: number, y:number): number {
+    return x + y;
+}
+```
+
+#### 函数表达式
+
+如果要我们现在写一个对函数表达式的定义：
+
+```ts
+let mySum = function (x: number, y: number): number {
+    return x + y;
+};
+```
+
+如果需要我们手动给 `mySum` 添加类型，则应该是这样：
+
+```ts
+let mySum: (x: number, y: number) => number = function (x: number, y: number): number {
+    return x + y;
+};
+```
+
+#### 用接口定义函数的形状
+
+我们也可以使用接口的方式来定义一个函数需要符合的形状：
+
+```ts
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+    return source.search(subString) !== -1;
+}
+```
+
+#### 可选参数
+
+前面提到，输入多余的（或者少于要求的）参数，是不允许的。那么如何定义可选的参数呢？
+
+与接口中的可选属性类似，我们用 `?` 表示可选的参数：
+
+```ts
+function buildName(firstName: string, lastName?: string) {
+    if (lastName) {
+        return firstName + ' ' + lastName;
+    } else {
+        return firstName;
+    }
+}
+let tomcat = buildName('Tom', 'Cat');
+let tom = buildName('Tom');
+```
+
+需要注意的是，可选参数必须接在必需参数后面。换句话说，**可选参数后面不允许再出现必需参数了**。
+
+#### 参数默认值
+
+在 ES6 中，我们允许给函数的参数添加默认值，**TypeScript 会将添加了默认值的参数识别为可选参数**：
+
+```ts
+function buildName(firstName: string, lastName: string = 'Cat') {
+    return firstName + ' ' + lastName;
+}
+let tomcat = buildName('Tom', 'Cat');
+let tom = buildName('Tom');
+```
+
+此时就不受「可选参数必须接在必需参数后面」的限制了。
+
+### 8. 类型断言
+
+类型断言（Type Assertion）可以用来手动指定一个值的类型。
+
+```ts
+值 as 类型
+```
+
+或者
+
+```ts
+<类型>值
+```
+
+#### 类型断言的用途
+
+##### 将一个联合类型断言为其中一个类型
+

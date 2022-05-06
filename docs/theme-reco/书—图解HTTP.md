@@ -23,7 +23,6 @@ TCP/IP 协议簇 —分层
 
 封装：发送端在层与层之间传输数据时，每经过一层时，必定会被打上一个该层所属的首部信息。
 
-![image-20220506212734196](书—图解HTTP.assets/image-20220506212734196.png)
 
 ==IP协议==
 
@@ -35,12 +34,11 @@ TCP/IP 协议簇 —分层
 
 TCP采用了三次握手策略。 握手过程使用了TCP的标志(flag)— SYN(synchronize)和ACK(acknowledgement).
 
-![image-20220506223315806](书—图解HTTP.assets/image-20220506223315806.png)
+
 
 DNS(Domain Name System) : 域名 → IP地址之间的解析服务
 
-![image-20220506225924672](书—图解HTTP.assets/image-20220506225924672.png)
+
 
 各种协议与HTTP协议的关系：
 
-![image-20220506230003941](书—图解HTTP.assets/image-20220506230003941.png)

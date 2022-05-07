@@ -34,7 +34,7 @@ TCP/IP 协议簇 —分层
 
 TCP采用了三次握手策略。 握手过程使用了TCP的标志(flag)— SYN(synchronize)和ACK(acknowledgement).
 
-
+![image-20220507101733657](HTTP_learn.assets/image-20220507101733657.png)
 
 DNS(Domain Name System) : 域名 → IP地址之间的解析服务
 

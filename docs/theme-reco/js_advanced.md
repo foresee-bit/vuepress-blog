@@ -3,6 +3,8 @@ title: JS高级
 time: 2022-5-15
 ---
 
+# 基础
+
 ## 数据类型
 
 1. 分类
@@ -62,7 +64,7 @@ console.log(a,typeof a, typeof a === 'undefined', a === undefined)
         * 运行函数
 
 2. 什么是内存？
-    
+   
     * 内存条通电后产生的用来可存储数据的空间（临时的） 
     * 内存分类
         * 栈 ：全局变量/局部变量
@@ -163,13 +165,92 @@ console.log(a,typeof a, typeof a === 'undefined', a === undefined)
 
 ### 为什么要用函数
 
-
+* 提高代码复用
+* 便于阅读交流
 
 ### 如何定义函数
 
+* 函数声明
 
+    ```html
+    function fn1 () {
+    	console.log('fn1()')
+    }
+    ```
+
+* 表达式
+
+    * ```html
+        var fn2 = function () {
+        	console.log('fn1()')
+        }
+        ```
 
 ### 如何调用函数
 
+* `test()` 直接调用
+* `obj.test()` 通过对象调用
+* `new test() `:  new调用
+* `test.call/apply(obj)` ： 临时让test成为obj的方法进行调用
 
+### 回调函数
+
+#### 什么函数才是回调函数？
+
+1. 你定义的
+2. 你没有调用
+3. 但最终它执行了
+
+#### 常见的回调函数？
+
+* `dom`事件回调函数
+* 定时器回调函数
+* ajax请求回调函数
+* 生命周期回调函数 
+
+## IIFE 立即执行函数
+
+1. 理解
+    * 全称：Immediately-Invoked Function Expression
+2. 作用
+    * 隐藏实现
+    * 不会污染外部命名空间 
+
+## 函数中的this
+
+### this是什么
+
+* 任何函数本质上都是通过某个对象来调用的，如果没有直接指定就是`window`
+
+* 所有函数内部都有一个变量`this` 
+* 它的值是调用函数的当前对象
+
+### 如何确定this的值
+
+* test() : window
+* p.test() : p
+* new test() : 新创建的对象
+* p.call(obj) : obj 
+
+
+
+# 函数高级
+
+## 原型与原型链
+
+1. 函数的prototype属性
+    * 每个函数都有一个prototype属性，它默认指向一个Object空对象（即原型对象）
+    * 原型对象中有一个属性constructor，它指向函数对象
+2. 给原型对象添加属性（一般都是方法）
+    * 作用：函数的所有实例对象自动拥有原型中的属性（方法）
+
+### 显式原型与隐式原型
+
+1. 每个函数function都有一个prototype，即显式原型（属性）
+2. 每个实例对象都有一个`__proto__`，可成为隐式原型（属性）、
+3. 对象的隐式原型的值为其对应构造函数的显式原型的值
+4. 内存结构
+5. 总结：
+    1. 函数的prototype属性，在定义函数时自动添加的，默认值是一个空Object对象
+    2. 对象的`__proto__`属性：在创建对象时自动添加的，默认值为构造函数的prototype属性值
 

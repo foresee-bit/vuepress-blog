@@ -1,5 +1,5 @@
 module.exports = {
-  "title": "JXJJ",
+  "title": "进学极境",
   "description": "personal blog",
   "dest": "public",
   "head": [
@@ -80,8 +80,10 @@ module.exports = {
         "link": "https://www.recoluan.com"
       },
       {
-        "title": "vuepress-theme-reco",
-        "desc": "A simple and beautiful vuepress Blog & Doc theme.",
+        // "title": "vuepress-theme-reco",
+        "title": "12",
+        // "desc": "A simple and beautiful vuepress Blog & Doc theme.",
+        "desc": "2222 and beautiful vuepress Blog & Doc theme.",
         "avatar": "https://vuepress-theme-reco.recoluan.com/icon_vuepress_reco.png",
         "link": "https://vuepress-theme-reco.recoluan.com"
       }
@@ -96,7 +98,7 @@ module.exports = {
     "recordLink": "https://beian.miit.gov.cn",
     "cyberSecurityRecord": '苏公网安备 32010202011242号',
     "cyberSecurityLink":'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32010202011242',
-    "startYear": "2017"
+    "startYear": "2021"
   },
   "markdown": {
     "lineNumbers": true

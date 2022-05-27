@@ -258,3 +258,5 @@ console.log(a,typeof a, typeof a === 'undefined', a === undefined)
     1. 函数的prototype属性，在定义函数时自动添加的，默认值是一个空Object对象
     2. 对象的`__proto__`属性：在创建对象时自动添加的，默认值为构造函数的prototype属性值
 
+![image-20220527223950329](http://cdn.yangdw.cn/img/image-20220527223950329.png)
+

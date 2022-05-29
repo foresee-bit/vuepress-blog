@@ -97,11 +97,11 @@ module.exports = {
     "record": "蜀ICP备2022011185号",
     "recordLink": "https://beian.miit.gov.cn",
     "cyberSecurityRecord": '苏公网安备 32010202011242号',
-    "cyberSecurityLink":'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32010202011242',
+    "cyberSecurityLink": 'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32010202011242',
     "startYear": "2021"
   },
   "markdown": {
     "lineNumbers": true
   },
-  base:"/"
+  base: "/"
 }

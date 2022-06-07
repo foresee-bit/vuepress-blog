@@ -26,7 +26,7 @@ console.log(girl) // Uncaught ReferenceError: girl is not defined
 console.log(song); // undefined
 var song = '京津冀'
 
-console.log(song); // undefined
+console.log(song); 
 let song = '京津冀'
 // Uncaught ReferenceError: Cannot access 'song' before initialization
 ```
@@ -75,7 +75,7 @@ for (let i = 0; i < items.length; i++) {
 
 ES6允许按照一定模式从数组和对象中提取值，对变量进行赋值—结构赋值。
 
-## 1. 数组的结构
+## 1. 数组的解构
 
 ```js
 const F4 = ['小沈阳','刘能','赵四','宋小宝']
@@ -115,7 +115,7 @@ ES6引入新的声明字符串的方式。
 
 ```js
 let str = `我也是一个字符串`
-console.log(str,typeof str);
+console.log(str,typeof str);// 我也是一个字符串   string
 ```
 
 ## 2. 内容中可以直接出现换行符
@@ -129,7 +129,7 @@ let str1 = `<ul>
 			</ul>`
 ```
 
-## 3. 变量拼接
+## 3. 变量拼接 ${}
 
  ```js
 let lovest = '魏翔'
@@ -200,7 +200,7 @@ getName.call(school1) //理工
 getName2.call(school1) //BIT
 ```
 
-## 2. 不能作为构造实例化对象
+## 2. 不能作为构造函数实例化对象
 
 ```js
 let Person = (name,age)=>{
@@ -324,7 +324,7 @@ function date(){
 date('1','2','3') //Arguments(3) ['1', '2', '3', callee: ƒ, Symbol(Symbol.iterator): ƒ]
 ```
 
-ES6中 rest参数 返回一个数组，可以调用数组的方法
+ES6中 rest参数 返回一个==数组==，可以调用数组的方法
 
 ```js
 function date1(...args){
@@ -566,3 +566,383 @@ let iterator = gen()
 iterator.next()
 ```
 
+# Promise
+
+`Promise`是ES6引入的异步编程的新解决方案。语法上Promise是一个构造函数，用来封装异步操作并可以获取其成功或失败的结果。
+
+1. Promise构造函数：Promise(excutor){}
+2. Promise.prototype.then 方法
+3. Promise.prototype.catch方法
+
+```js
+const p = new Promise(function(resolve,reject){
+    setTimeout(function(){
+        // let data = '数据库中的用户数据'
+        // resolve(data)
+        let err = '数据读取失败'
+        reject(err)
+    },1000)
+})
+p.then(function(value){
+    console.log(value);
+},function(reason){
+    console.log(reason);
+})
+```
+
+## 使用Promise封装读取文件
+
+`node`的原始方法  fs
+
+```js
+const fs = require('fs')
+fs.readFile('./为学.md', (err, data) => {
+    if(err) throw err
+    console.log(data.toString());
+})
+```
+
+`Promise`封装
+
+```js
+const p = new Promise(function (resolve, reject) {
+    fs.readFile("./为学.md", (err, data) => {
+        if(err) reject(err)
+        resolve(data)
+    })
+})
+p.then(function (vaule) {
+    console.log(vaule.toString());
+    // console.log(vaule); //读取的是Buffer，<Buffer 61 73 64 61 64 73 61 64 61 73 64 61 73 64 61...>
+}, function (reason) {
+    console.log('读取失败');
+})
+```
+
+# Set—集合介绍与API 
+
+```js
+let s = new Set()
+let s2 = new Set(['大事','小事','好事','坏事','小事'])
+console.log(s2.size);
+s2.add('喜事儿')
+s2.delete('坏事')
+console.log(s2.has('好事'));
+console.log(s2);
+// s2.clear()
+console.log(s2);
+for(let v of s2){
+    console.log(v);
+}
+```
+
+数组去重   求交集   并集 差集
+
+```js
+let arr = [1, 2, 3, 4, 5, 4, 3, 2, 1]
+//1.数组去重
+let result = [...new Set(arr)]
+let result1 = new Set(arr)
+console.log(result1);
+console.log(result);
+//2.交集
+let arr2 = [4, 5, 6, 5, 6]
+// let result2 = [...new Set(arr2)].filter(item =>{
+//     let s2 = new Set(arr2)
+//     if(s2.has(item)){
+//         return true
+//     }else{
+//         return false
+//     }
+// })
+let result3 = [...new Set(arr)].filter(item => new Set(arr2).has(item))
+console.log(result3);
+// 3.并集
+let union = [...new Set([...arr, ...arr2])]
+console.log(union);
+// 4. 差集
+let diff = [...new Set(arr)].filter(item => !(new Set(arr2).has(item)))
+console.log(diff);
+```
+
+# Map结构
+
+ES6 提供了`Map`数据结构。它类似于对象，也是键值对的集合。但是"键"的范围不限于字符串，各种类型的值（包括对象）都可以当做键。Map也实现了iterator接口，所以可以使用【拓展运算符】和`for  ... of...`进行遍历。`Map`的属性和方法。
+
+1. `size`  返回`Map`的元素个数
+2. `set`  增加一个新元素，返回当前`Map`
+3. `get`   返回键名对象的键值
+4. `has` 检测Map中是否包含某个元素，返回`boolean`
+5. `clear `  清空集合，返回`undefined`
+
+```js
+let m = new Map()
+m.set('name','BIT')
+m.set('change',function(){
+    console.log('我们可以改变你!');
+})
+let key = {
+    school: '理工'
+}
+m.set(key,['北京','上海','深圳'])
+console.log(m.size);
+console.log(m);
+// m.delete('name')
+console.log(m.get(key));
+m.clear()
+```
+
+# class 类
+
+ES6提供了更接近传统语言的写法，引入了`Class`（类）这个概念，作为对象的模板。通过class关键字，可以定义类。
+
+ES5的实例化
+
+```js
+// ES5的实例化
+function Phone(brand,price){
+    this.brand = brand
+    this.price = price
+}
+Phone.prototype.call = function(){
+    console.log('我可以打电话！');
+}
+let Huawei = new Phone('华为',5999)
+Huawei.call()
+console.log(Huawei);
+```
+
+ES6—class
+
+```js
+class Shouji {
+    constructor(brand,price){
+        this.brand = brand
+        this.price = price
+    }
+    call(){
+        console.log("我可以打电话");
+    }
+}
+let onePlus = new Shouji("1+",1999)
+console.log(onePlus);
+```
+
+## 构造函数继承
+
+`ES5`
+
+```js
+// ES5
+function Phone(brand,price){
+    this.brand = brand
+    this.price = price
+}
+Phone.prototype.call = function(){
+    console.log("我可以打电话");
+}
+function SmartPhone(brand,price,color,size){
+    Phone.call(this,brand,price)
+    this.color = color
+    this.size = size
+}
+SmartPhone.prototype = new Phone
+SmartPhone.prototype.constructor = SmartPhone
+// 声明子类的方法
+SmartPhone.prototype.photo = function(){
+    console.log("我可以拍照");
+}
+SmartPhone.prototype.playGame = function(){
+    console.log("我可以玩游戏");
+}
+const chuizi = new SmartPhone('锤子',2499,'黑色','5.5inch')
+console.log(chuizi);
+```
+
+`ES6` class类的继承
+
+```js
+class Phone {
+    constructor(brand, price) {
+        this.brand = brand
+        this.price = price
+    }
+    call() {
+        console.log("我可以打电话");
+    }
+}
+class SmartPhone extends Phone {
+    constructor(brand, price, color, size) {
+        super(brand, price)
+        this.color = color
+        this.size = size
+    }
+    photo(){
+        console.log("拍照");
+    }
+    playGame(){
+        console.log("玩游戏");
+    }
+}
+const xiaomi = new SmartPhone('小米',444,'Black','5.5inch')
+console.log(xiaomi);
+```
+
+## get 和 set 
+
+```js
+class Phone{
+    get price(){
+        console.log("价格属性被读取了");
+        return 'aaa'
+    }
+    set price(newVal){
+        console.log('价格属性被修改了');
+        console.log(newVal);
+    }
+}
+let s = new Phone()
+s.price = 'free'
+```
+
+# ES6的数值拓展
+
+## 1. `Number.EPSILON`是JS标识的最小精度
+
+```js
+function equal(a,b){
+    if(Math.abs(a-b) < Number.EPSILON){
+        return true
+    }else {
+        return false
+    }
+}
+console.log(0.1 + 0.2 === 0.3);//false
+console.log(equal(0.1 + 0.2, 0.3));//true
+```
+
+## 2. `Number.isFinite` 检测一个值是否为有限数
+
+## 3. `Number.isNaN` 检测一个数是否为`NaN`
+
+## 4. `Number.parseInt`   `Number.parseFloat`
+
+```js
+console.log(Number.parseInt('512321321lobv'));//512321321
+console.log(Number.parseFloat('3.421312神奇'));//3.421312
+```
+
+## 5. `Number.isInteger` 判断一个数是否为整数
+
+## 6. `Math.trunc` 将数字的小数部分抹掉
+
+## 7. `Math.sign`  判断一个数到底为正数  负数  还是 零
+
+```js
+console.log(Math.sign(100));// 1
+console.log(Math.sign(0)); //  0
+console.log(Math.sign(-100));// -1
+```
+
+# ES6的对象方法拓展
+
+## 1. `Object.is`判断两个值是否完全相等
+
+```js
+console.log(Object.is(120,120)); // true
+console.log(Object.is(NaN,NaN)); // true
+console.log(NaN === NaN); // false
+```
+
+## 2. `Object.assign` 对象的合并
+
+```js
+const config1 = {
+    host:'localhost',
+    port:3306,
+    name:'root',
+    pass:'root',
+    test:'test'
+}
+const config2 = {
+    host:'http://127.0.0.1',
+    port:33061,
+    name:'root1',
+    pass:'root1',
+}
+console.log(Object.assign(config1,config2));
+//{host: 'http://127.0.0.1', port: 33061, name: 'root1', pass: 'root1', test: 'test'}
+```
+
+
+
+# ES6模块
+
+## 暴露方法
+
+分别暴露
+
+```js
+export let school = 'BIT'
+export function teach() {
+    console.log("我们可以教给你开发技能！");
+}
+```
+
+统一暴露
+
+```js
+let school = 'BIT'
+function teach() {
+    console.log("我们可以教给你开发技能！");
+}
+export {school,teach}
+```
+
+默认暴露
+
+```js
+export default {
+    school: 'BIT',
+    change: function () {
+        console.log("我们可以改变你！");
+    }
+}
+```
+
+## 引入方法
+
+通用引入
+
+```js
+import * as m1 from './m1.js'
+```
+
+结构赋值形式
+
+```js
+import {school,teach} from './m1.js'
+import {school as BIT,findJob} from './m2.js'
+import {default as m3} from './m3.js' // 针对默认暴露
+```
+
+简便形式  针对默认暴露
+
+```js
+import m3 from './m3.js'
+```
+
+# `includes`方法
+
+```js
+const mingzhu = ['西游记','红楼梦','三国演义','水浒传']
+console.log(mingzhu.includes('西游记')) // true
+console.log(mingzhu.includes('天工开物')) // false
+```
+
+# `async` 和 `await`
+
+`async`和`await`两种语法结合可以让异步代码像同步代码一样。
+
+1. `async`函数的返回值为`promise`对象
+2. `promise`对象的结构由`async`函数执行的返回值决定

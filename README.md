@@ -1,12 +1,12 @@
 ---
 home: true
-heroText: vuepress-theme-reco
-tagline: A simple and beautiful vuepress blog theme.
-# heroImage: /hero.png
+heroText: 先驱者的脚步都让人高山仰止
+tagline: Home is where the heart is.
+# heroImage: /Mancity.jpg
 # heroImageStyle: {
 #   maxWidth: '600px',
 #   width: '100%',
-#   display: block,
+#   display: float,
 #   margin: '9rem auto 2rem',
 #   background: '#fff',
 #   borderRadius: '1rem',

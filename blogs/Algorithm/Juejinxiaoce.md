@@ -285,3 +285,80 @@ function TreeNode(val){
 const node = new TreeNode(1)
 ```
 
+如此便能得到一个值为1的二叉树节点，从结构上看如下图：
+
+![image-20220611201802641](http://cdn.yangdw.cn/img/image-20220611201802641.png)
+
+### 二叉树的遍历
+
+按照顺序规则的不同，遍历方式有以下四种：
+
+* 先序遍历
+* 中序遍历
+* 后序遍历
+* 层次遍历
+
+按照实现方式的不同，遍历方式又可以分为以下两种：
+
+* 递归遍历（先、中、后序遍历）
+* 层次遍历
+
+遍历顺序：分别对应了二叉树的先序、中序、后序遍历规则。
+
+* 根节点 - > 左子树 - > 右子树
+* 左子树 - > 根节点 -> 右子树
+* 左子树 - > 右子树 - > 根节点
+
+先序遍历如下图所示：
+
+
+
+![img](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/4/6/1714ec42acc57e04~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp)
+
+上述二叉树结构编码：
+
+```js
+const root = {
+    val: "A",
+    left:{
+        val:"B",
+        left:{
+            val:"D"
+        },
+        right:{
+            val:"E"
+        }
+    },
+    right:{
+        val:"C",
+        right:{
+            val:"F"
+        }
+    }
+}
+```
+
+#### 递归函数的编写要点
+
+* 递归式
+* 递归边界
+
+#### 第一个递归遍历函数
+
+先序遍历的编码实现：
+
+```js
+// 所有遍历函数的入参都是树的根节点对象
+function preorder(root){
+    //递归边界，root为空
+    if(!root){
+        return
+    }
+    //递归遍历左子树
+    preorder(root.left)
+    //递归遍历右子树
+    preorder(root.right)
+}
+```
+
+详细图解可参考小册第5节。

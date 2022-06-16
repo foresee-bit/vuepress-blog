@@ -11,7 +11,7 @@ categories:
 
 # 数组的应用
 
-## 两数求和问题
+## 两数求和问题（1）
 
 真题描述： 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
 
@@ -59,7 +59,7 @@ var twoSum = function(nums, target) {
 
 
 
-## 合并两个有序数组
+## 合并两个有序数组（88）
 
 真题描述：给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
 
@@ -109,7 +109,7 @@ var merge = function(nums1, m, nums2, n) {
 };
 ```
 
-## 三数求和问题
+## 三数求和问题（15）
 
 真题描述：给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 
@@ -178,6 +178,115 @@ const threeSum = function(nums){
         }
     }
     return res
+}
+```
+
+# 链表的应用
+
+## 合并两个有序链表（21）
+
+==真题描述==：将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。 
+
+![image-20220616165200857](http://cdn.yangdw.cn/img/image-20220616165200857.png)
+
+```
+输入：l1 = [1,2,4], l2 = [1,3,4]
+输出：[1,1,2,3,4,4]
+```
+
+思路：处理链表的本质，是处理链表节点之间的指针关系。
+
+编码实现：
+
+```js
+const mergeTwoLists = function(l1,l2){
+    let head = new ListNode()
+    let cur = head
+    while(l1 && l2){
+        if(l1.val <= l2.val){
+            cur.next = l1
+            l1 = l1.next
+        }else {
+            cur.next = l2
+            l2 = l2.next
+        }
+        cur = cur.next
+    }
+    //处理链表不等长的情况
+    cur.next = l1 !== null ? l1:l2
+    return head.next
+}
+```
+
+## 删除排序链表中的重复元素（83）
+
+==真题描述==：给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+
+![image-20220616170032283](http://cdn.yangdw.cn/img/image-20220616170032283.png)
+
+```
+输入：head = [1,1,2]
+输出：[1,2]
+```
+
+编码实现：
+
+```js
+const deleteDuplicates = function(head){
+    let cur = head
+    while(cur !== null && cur.next !== null){
+        if(cur.val === cur.next.val){
+            cur.next = cur.next.next
+        }else{
+            cur = cur.next
+        }
+    }
+    return head
+}
+```
+
+## 删除排序链表中的重复元素-ii （82）
+
+==真题描述==：给定一个排序链表，删除所有含有重复数字的结点，只保留原始链表中 没有重复出现的数字。
+
+![image-20220616170442587](http://cdn.yangdw.cn/img/image-20220616170442587.png)
+
+```
+输入：head = [1,2,3,3,4,4,5]
+输出：[1,2,5]
+```
+
+思路：与上题的异同：
+
+相同点：删除重复元素。
+
+不同点：只要一个元素发生重复，全部删除。
+
+难点：无法定位到第一个节点的前驱节点，无法删除。
+
+解决：增加一个空节点（哨兵节点）`dummy`，可以确保所有节点都有一个前驱节点。
+
+编码实现：
+
+```js
+const deleteDuplicates = function(head){
+    if(!head || !head.next){
+        return head
+    }
+    let dummy = new ListNode()
+    dummy.next = head
+    let cur = dummy
+    while(cur.next && cur.next.next){
+        if(cur.next.val === cur.next.next.val){
+            let val = cur.next.val
+            while(cur.next && cur.next === val){
+                cur.next = cur.next.next
+            }
+        }else {
+            cur = cur.next
+        }
+    }
+    return dummy.next
 }
 ```
 

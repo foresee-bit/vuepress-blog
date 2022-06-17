@@ -9,11 +9,11 @@ categories:
  - Algorithm
 ---
 
-# 数组的应用
+## 数组的应用
 
-## 两数求和问题（1）
+### 两数求和问题（1）
 
-真题描述： 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
+真题描述： 给定一个整数数组 `nums` 和一个目标值 `target`，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
 
 ```
 输入：nums = [2,7,11,15], target = 9
@@ -57,9 +57,7 @@ var twoSum = function(nums, target) {
 };
 ```
 
-
-
-## 合并两个有序数组（88）
+### 合并两个有序数组（88）
 
 真题描述：给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
 
@@ -109,7 +107,7 @@ var merge = function(nums1, m, nums2, n) {
 };
 ```
 
-## 三数求和问题（15）
+### 三数求和问题（15）
 
 真题描述：给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 
@@ -181,9 +179,9 @@ const threeSum = function(nums){
 }
 ```
 
-# 链表的应用
+## 链表的应用
 
-## 合并两个有序链表（21）
+### 合并两个有序链表（21）
 
 ==真题描述==：将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。 
 
@@ -218,7 +216,7 @@ const mergeTwoLists = function(l1,l2){
 }
 ```
 
-## 删除排序链表中的重复元素（83）
+### 删除排序链表中的重复元素（83）
 
 ==真题描述==：给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
 
@@ -245,7 +243,7 @@ const deleteDuplicates = function(head){
 }
 ```
 
-## 删除排序链表中的重复元素-ii （82）
+### 删除排序链表中的重复元素-ii （82）
 
 ==真题描述==：给定一个排序链表，删除所有含有重复数字的结点，只保留原始链表中 没有重复出现的数字。
 
@@ -286,6 +284,121 @@ const deleteDuplicates = function(head){
             cur = cur.next
         }
     }
+    return dummy.next
+}
+```
+
+## 快慢指针与多指针—玩转链表
+
+### 快慢指针—删除链表的倒数第N个节点（19）
+
+==真题描述==：给定一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+
+![image-20220617175320953](http://cdn.yangdw.cn/img/image-20220617175320953.png)
+
+==思路==：
+
+难点在于这个倒数第N个节点如何定位。因为链表遍历不能从后往前走，因此`倒数第N个`可以转换为`正数第 len - n + 1`个。
+
+快慢指针：首先两个指针`slow`和`fast`，全部指向链表的起始位—`dummy`节点：
+
+![image-20220617180035346](http://cdn.yangdw.cn/img/image-20220617180035346.png)
+
+快指针先触发！走上n步，在第n个节点处停住，然后快慢指针一起前进，当快指针前进到最后一个节点时，两个指针再一起停下来。
+
+![image-20220617180200742](http://cdn.yangdw.cn/img/image-20220617180200742.png)
+
+![image-20220617180220759](http://cdn.yangdw.cn/img/image-20220617180220759.png)
+
+此时，慢指针所指的位置，就是倒数第n个节点的前一个节点。然后再将该节点指针指向改变，即可对倒数第n个节点进行删除。
+
+![image-20220617180324778](http://cdn.yangdw.cn/img/image-20220617180324778.png)
+
+```js
+const removeNthFromEnd = function(head,n){
+    let dummy = new ListNode()
+    dummy.next = head
+    let fast = dummy
+    let slow = dummy
+    while(n !== 0) {
+        fast = fast.next
+        n--
+    }
+    while(fast.next){
+        fast = fast.next
+        slow = slow.next
+    }
+    slow.next = slow.next.next
+    return dummy.next
+}
+```
+
+### 链表的反转（206）
+
+==真题描述==：定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
+
+![image-20220617215102566](http://cdn.yangdw.cn/img/image-20220617215102566.png)
+
+```
+输入：head = [1,2,3,4,5]
+输出：[5,4,3,2,1]
+```
+
+思路：**处理链表的本质，是处理链表结点之间的指针关系**
+
+编码实现：
+
+```js
+const reverseList = function(head){
+    let pre = null
+    let cur = head
+    while(cur !== null){
+        let next = cur.next
+        cur.next = pre
+        pre = cur
+        cur = next
+    }
+    return pre
+}
+```
+
+### 局部反转一个链表（92）
+
+==真题描述==：给你单链表的头指针 `head` 和两个整数 `left` 和 `right` ，其中 `left <= right` 。请你反转从位置 `left` 到位置 `right` 的链表节点，返回 **反转后的链表** 。
+
+![image-20220617215802304](http://cdn.yangdw.cn/img/image-20220617215802304.png)
+
+```
+输入：head = [1,2,3,4,5], left = 2, right = 4
+输出：[1,4,3,2,5]
+```
+
+==思路==：局部反转可以使用之前的反转链表的操作，需要额外考虑的是局部链表两端的指向问题，即局部链表的前驱节点和后续节点需要一个指针进行缓存。
+
+编码实现：
+
+```js
+const reverseBetween = function(head,left,right){
+    let pre,cur,leftHead
+    const dummy = new ListNode()
+    dummy.next = head
+    let p = dummy
+    while(left > 0) {
+        p = p.next
+        left--
+    }
+    leftHead = p
+    pre = p
+    let start = left.next
+    cur = p.next
+    for(let i = left,i < right,i++){
+        let next = cur.next
+        cur.next = pre
+        pre = cur
+        cur = next
+    }
+    leftHead.next = pre
+    start.next = cur
     return dummy.next
 }
 ```

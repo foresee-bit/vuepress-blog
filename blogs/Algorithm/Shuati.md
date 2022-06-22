@@ -403,3 +403,57 @@ const reverseBetween = function(head,left,right){
 }
 ```
 
+## 环形链表专题
+
+### 环形链表（141）
+
+==真题描述==：给定一个链表，判断链表中是否有环。
+```
+输入：head = [3,2,0,-4], pos = 1  //pos不作为参数输入
+输出：true
+```
+
+思路分析：立Flag法，在每次走过的节点上立一个Flag为true,当遍历到第一个Flag为true时，即可判断有环。
+
+![image-20220618134947718](http://cdn.yangdw.cn/img/image-20220618134947718.png)
+
+
+```js
+const hasCycle = function(head){
+    while(head){
+        if(head.flag){
+            return true
+        }else {
+            head.flag = true
+            head = head.next
+        }
+    }
+    return false
+}
+```
+
+### 环形链表II（142）
+
+==真题描述==：给定一个链表，返回链表开始入环的第一个结点。 如果链表无环，则返回 null。
+
+![image-20220618135405596](http://cdn.yangdw.cn/img/image-20220618135405596.png)
+
+```
+输入：head = [3,2,0,-4], pos = 1
+输出：返回索引为 1 的链表节点
+```
+
+```js
+const detectCycle = function(head){
+    while(head){
+        if(head.flag){
+            return head
+        }else{
+            head.flag = true
+            head = head.next
+        }
+    }
+    return null
+}
+```
+

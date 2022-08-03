@@ -79,6 +79,11 @@ JD是用人单位发布的招聘信息。
 offsetWidth = (内容宽度 + 内边距 + 边框)，无外边距,答案为122px
 补充：如果让offsetWidth等于100px，该如何做？
 加一个  box-sizing:border-box
+盒模型分类：
+标准盒模型
+盒子总高 = height + padding + border + margin
+IE怪异盒模型
+盒子总高 = height + margin
 ```
 
 1. margin纵向重叠的问题
@@ -139,7 +144,48 @@ offsetWidth = (内容宽度 + 内边距 + 边框)，无外边距,答案为122px
 
     常用语法： flex-direction、justify-content、align-items 、flex-wrap、align-self
 
-## 定位
+## 选择器
+
+### 选择器
+
+```js
+-- id选择器(#box) B
+-- 类选择器(.one) C
+-- 标签选择器(div) D
+-- 后代选择器(#box div)
+-- 子选择器(.one>one_1) 选择父元素为.one的所有.one_1的元素
+-- 伪类选择器(:link  :visited :active :hover :first-child) C
+-- 伪元素选择器 D
+-- 属性选择器 C
+```
+
+### 优先级
+
+```js
+内联A > ID选择器B > 类选择器C > 标签选择器D
+
+如果外部样式需要覆盖内联样式，就需要使用!important
+```
+
+## BFC的理解
+
+```js
+BFC（Block Formatting Context），即块级格式化上下文。
+1. 内部盒子会在垂直方向上一个接一个的放置
+2. 对于同一个BFC的两个相邻的盒子的margin会发生重叠，与方向无关。
+3. BFC的区域不会与float的元素区域重叠
+4. 计算BFC的高度时，浮动子元素也参与计算
+-------
+触发BFC的条件
+1. 浮动float
+2. overflow不为visible，一般为hidden
+3. display的值为flex,inline-block,grid等
+4. position的值为absolute或fixed
+```
+
+## 定位 
+
+### 水平垂直居中
 
 1. absolute和relative分别依据什么定位？
 
@@ -163,6 +209,125 @@ offsetWidth = (内容宽度 + 内边距 + 边框)，无外边距,答案为122px
     	absolute元素： top,left,bottom,right = 0 + margin:auto
     ```
 
+3. 水平垂直居中
+
+```js
+flex弹性布局
+.father {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+grid网格布局
+```
+
+小结：不知道元素宽高大小仍能实现水平垂直居中：
+
+1. 定位子绝父相 + margin:auto
+2. 定位子绝父相 + top: 50%, left: 50% transform:transparent(-50%,50%)
+3. 定位子绝父相 + margin：负值 
+4. flex布局
+5. grid布局
+
+### 两栏布局，右侧自适应，三栏布局
+
+方法1：使用float左浮左边栏，右边模块使用margin-left撑出内容块做展示，为父级元素添加BFC
+
+```js
+html
+  <div class="box">
+    <div class="left">左边</div>
+    <div class="right">右边</div>
+  </div>
+css
+  <style>
+    .box {
+      overflow: hidden;
+    }
+    .left {
+      float: left;
+      width: 200px;
+      height: 400px;
+      background-color: gray;
+    }
+    .right{
+      height: 400px;
+      margin-left: 200px;
+      background-color: lightgray;
+    }
+  </style>
+```
+
+方法2： flex弹性布局
+
+```js
+html
+  <div class="box">
+    <div class="left">左边</div>
+    <div class="right">右边</div>
+  </div>
+css
+  <style>
+    .box {
+      display: flex;
+      height: 200px;
+    }
+    .left {
+      width: 100px;
+      background-color: gray;
+    }
+    .right {
+      background-color: lightgray;
+      flex: 1;
+    }
+  </style>
+```
+
+### 三栏布局
+
+1. 两边使用float，中间使用margin
+2. 两边使用absolute,中间使用margin
+3. flex实现 display:flex; 子：flex:1;
+4. grid实现 display:grid; width:100%; grid-template-columns: 300px auto 300px;
+
+```js
+html
+  <div class="container">
+    <div class="left">左边固定宽度</div>
+    <div class="main">中间自适应</div>
+    <div class="right">右边固定宽度</div>
+  </div>
+css
+  <style>
+    .container {
+      position: relative;
+    }
+    .left,.right,.main {
+      height: 200px;
+    }
+    .left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      background: green;
+    }
+    .right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      background: green;
+    }
+    .main{
+      margin: 0 auto;
+      background: pink;
+    }
+  </style>
+```
+
+
+
 ## 图文样式
 
 1. line-height的继承问题
@@ -180,6 +345,28 @@ offsetWidth = (内容宽度 + 内边距 + 边框)，无外边距,答案为122px
     }
     则子元素行高为20px * 2 = 40px
     ```
+
+## CSS绘制三角形
+
+```js
+.wrap {
+  width: 0;
+  height: 0;
+  border-width: 12px;
+  border-color: transparent transparent red transparent;
+  border-style: solid;
+}
+```
+
+## 预处理器
+
+```js
+变量（variables）
+作用域（scope）
+代码混合（ mixins）
+嵌套（nested rules）
+代码模块化（Modules）
+```
 
 ## 响应式
 
@@ -212,28 +399,101 @@ vw:网页视口高度的1/100
 
 1. 关于CSS3动画
 
-# JS基础-变量类型和计算面试题
+# JS常见面试题
 
-题目：
+## 1. 数组常用的方法
 
-1. typeof能判断哪些类型
+操作方法
 
-    ```js
-    识别所有值类型
-    识别函数
-    判断是否是引用类型 'object' ,往下无法细分，即无法识别是{}还是[] 还是null等
-    typeof null  // 'object'
-    ```
+```js
+增
+push、unshift、splice(起始位置，删除个数，插入元素)、concat
+// 前三个会修改原数组，同时splice返回的是空数组
+```
 
-2. 何时使用=== 何时使用 ==
+```js
+删
+pop、shift、splice、slice
+// 前三个修改原数组，
+改
+splice
+查
+indexOf、includes、find
+// indexOf返回-1,includes返回true或false,find传入一个function,返回第一个找到的元素
+```
 
-    ```js
-    //除了 == null 之外，其他一律都用 == ,因为==会做类型转换
-    ```
+排序方法
 
-3. 值类型和引用类型的区别
+```js
+reverse()、sort((a,b)=> a - b)
+```
 
-4. 手写深拷贝
+转换方法
+
+```js
+join() //接收一个参数，即字符串分隔符，返回包含所有项的字符串
+```
+
+迭代方法
+
+```js
+都不改变原数组
+some()、every()、forEach()、fliter()、map()、reduce()
+
+let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+let everyResult = numbers.every((item, index, array) => item > 2);
+```
+
+## 2.字符串常用方法
+
+字符串是不可被改变的，方法都是创建一个副本来实现操作。
+
+操作方法
+
+```
+增
+字符串拼接  +  ${} 
+concat() 返回字符串的副本
+```
+
+```js
+删
+slice()、substring(from,to)、substring(from,length)
+改
+trim()、repeat(number)、toLowerCase、toUpperCase
+查
+charAt(number)、indexOf()、includes()、startWith()
+```
+
+转换方法
+
+```js
+split() //把字符串按照指定的分隔符，拆分成数组中的每一项
+```
+
+模板匹配语法
+
+```js
+match(//)、search(//)、replace(string,string)、replaceAll()
+```
+
+## 3. 浅拷贝和深拷贝
+
+浅拷贝 Object.assign() 、 拓展运算符、
+
+```js
+function shallowClone(obj) {
+    const newObj = {};
+    for(let prop in obj) {
+        if(obj.hasOwnProperty(prop)){
+            newObj[prop] = obj[prop];
+        }
+    }
+    return newObj;
+}
+```
+
+深拷贝
 
 ```js
 function deepClone(obj) {
@@ -258,6 +518,33 @@ function deepClone(obj) {
   return result
 }
 ```
+
+## 4. 防抖和节流
+
+
+
+# JS基础-变量类型和计算面试题
+
+题目：
+
+1. typeof能判断哪些类型
+
+    ```js
+    识别所有值类型
+    识别函数
+    判断是否是引用类型 'object' ,往下无法细分，即无法识别是{}还是[] 还是null等
+    typeof null  // 'object'
+    ```
+
+2. 何时使用=== 何时使用 ==
+
+    ```js
+    //除了 == null 之外，其他一律都用 == ,因为==会做类型转换
+    ```
+
+3. 值类型和引用类型的区别
+
+4. 手写深拷贝
 
 知识点：
 
@@ -420,8 +707,6 @@ console.log(!window.abc) // true
     console.log(People.prototype)
     console.log(People.prototype === Student.prototype.__proto__) // true
     ```
-
-    
 
 3. 原型和原型链
 
@@ -1022,6 +1307,344 @@ history.forward()
 题目：
 
 1. 编写一个通用的事件监听函数
+
 2. 描述事件冒泡的流程
+
+    ```js
+    基于DOM树形结构
+    事件会顺着触发元素向上冒泡
+    应用场景：代理
+    ```
+
 3. 无限下拉的图片列表，如何监听每个图片的点击？
+
+    ```js
+    事件代理
+    用e.target获取触发元素
+    用matches来判断是否是触发元素
+    ```
+
+    
+
+知识点
+
+事件绑定
+
+```js
+//通用的事件绑定函数
+function bindEvent(elem,type,fn){
+    elem.addEventListener(type,fn)
+}
+const btn1 = document.getElementById('btn1')
+bindEvent(btn1,'click',evevt =>{
+    console.log(event.target)  // 获取触发的元素
+    event.preventDefault() // 阻止默认行为
+    alert('clicked')
+})
+```
+
+事件冒泡
+
+![image-20220729123804044](http://cdn.yangdw.cn/img/image-20220729123804044.png)
+
+事件代理
+
+# WEB-API-AJAX
+
+题目
+
+1. 手写一个简易的ajax
+
+    ```js
+    function ajax(){
+        const p = new Promise((resolve,reject)=>{
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET',url,true)
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    resolve(
+                        JSON.parse(xhr.responseText)
+                    )
+                }else if (xhr.status === 404){
+                    reject(new Error('404 not found'))
+                }
+            }
+    	}
+    	xhr.send(null)
+    	})
+        return p
+    }
+    
+    ```
+
+2. 跨域的常用实现方式
+
+    ```js
+    JSONP
+    CORS
+    ```
+
+    
+
+知识点
+
+XMLHttpRequest
+
+```js
+// get请求
+const xhr = new XMLHttpRequest()
+xhr.open('GET','/api',true)
+xhr.onreadystatechange = function(){
+    if(xhr.readyState === 4){
+        if(xhr.status === 200){
+            alert(xhr.responseText)
+        }else{
+            console.log('其他情况')
+        }
+    }
+}
+xhr.send(null)
+//POST请求
+const xhr = new XMLHttpRequest()
+xhr.open('POST','/login',true)
+xhr.onreadystatechange = function(){
+    if(xhr.readyState === 4){
+        if(xhr.status === 200){
+            alert(xhr.responseText)
+        }else{
+            console.log('其他情况')
+        }
+    }
+}
+const postData = {
+    usename:'zhangsan',
+    password:'xxx'
+}
+xhr.send(JSON.stringify(postData))
+```
+
+状态码
+
+```js
+2xx -- 表示成功处理请求，如200
+3xx -- 需要重定向，浏览器直接跳转，如301(永久重定向) 302(临时重定向) 304(资源未改变，使用缓存)
+4xx -- 客户端请求错误，如404 403(没有权限)
+5xx -- 服务器端错误
+```
+
+跨域：同源策略，跨域解决方案
+
+```js
+什么是跨域（同源策略）
+ajax请求时，浏览器要求当前网页和server必须同源（安全）
+同源：协议、域名、端口，三者必须一致
+    <img src=跨域的图片地址/>
+    <link href=跨域的css地址 />
+    <script src=跨域的js地址></script>
+JSONP
+
+CORS - 服务器设置http header
+response.setHeader("Access-Control-Allow-Origin","http://localhost:8011")
+response.setHeader("Access-Control-Allow-Headers","X-Requested-With")
+response.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+```
+
+# WEB-API-存储
+
+题目：描述 cookie localStorage sessionStorage区别
+
+```js
+容量
+API易用性
+是否跟随http请求发送
+```
+
+
+
+知识点
+
+cookie
+
+```js
+cookie
+	本身用于浏览器和server通讯
+    被"借用"到本地存储来
+    可用document.cookie = '...' 来修改
+缺点：存储大小，最大4KB
+	 http请求时需要发送到服务端，增加请求数据量
+```
+
+localStorage和sessionStorage
+
+```js
+HTML5专门为存储而设计，最大可存5M
+API简单易用 setItem getItem
+不会随着http请求被发送出去
+// localStorage数据会永久存储，除非代码或手动删除
+// sessionStorage数据只存在于当前会话，浏览器关闭则清空
+```
+
+# HTTP面试题
+
+题目：
+
+1. http常见的状态码有哪些？
+2. http常见的header有哪些？
+3. 什么是Restful API
+4. 描述一下http的缓存机制（重要）
+
+知识点
+
+## http状态码
+
+```js
+状态码分类
+	1xx 服务器收到请求
+    2xx 请求成功 如200
+    3xx 重定向 如301 永久重定向(配合location,浏览器自动处理)   302 临时重定向 304 资源未修改
+    4xx 客户端错误，如404资源未找到 403没有权限
+    5xx 服务端错误，如500
+```
+
+Restful API
+
+```js
+一种新的API设计方法
+传统API设计：把每个url当做一个功能
+Restful API设计： 把每个url当做一个唯一的资源
+// 不使用url参数
+传统：        /api/list?pageIndex=2
+Restful API: /api/list/2
+// 用method表示操作类型
+post请求：/api/blog
+patch请求：/api/blog/100
+get请求 /api/blog/100
+```
+
+http headers
+
+```js
+常见的Request Headers
+	Accept 浏览器可接收的数据格式
+    Accept-Encoding 浏览器可接收的压缩算法，如gzip
+    Accept-Language
+
+	Connection:keep-alive 一次TCP链接重复使用
+    cookie
+    Host
+    User-Agent (UA) 浏览器信息
+    Content-type 发送数据的格式，如application/json
+常见的Response Headers
+	Content-type 返回数据的格式
+    Content-length
+	Cache-Control
+	Content-Encoding
+	Set-cookie
+```
+
+## http缓存
+
+关于缓存的介绍
+
+```js
+什么是缓存？
+
+为什么需要缓存？
+
+哪些资源可以被缓存？ --静态资源（js css img)
+```
+
+http缓存策略（强制缓存+协商缓存）
+
+```
+强制缓存
+Cache-Control
+	max-age  最大过期时间
+	no-cache 不使用强制缓存
+	no-store  不使用强制缓存，也不让服务端做处理，只需要重新返回一份资源
+Response Headers中
+控制强制缓存的逻辑
+例如Cache-Control: max-age = 31536000
+```
+
+![image-20220729165151035](http://cdn.yangdw.cn/img/image-20220729165151035.png)
+
+缓存失效后，重新请求服务端
+
+协商缓存
+
+```js
+服务端缓存策略
+服务器判断客户端资源，是否和服务端资源一样
+一致则返回304，否则返回200和最新的资源
+```
+
+![image-20220729165935030](http://cdn.yangdw.cn/img/image-20220729165935030.png)
+
+资源标识
+
+```js
+在Respon Headers中，有两种
+    Last-Modified   资源的最后修改时间
+    Etag  			资源的唯一标识(一个字符串)
+```
+
+Last-Modified: 资源的最后修改时间
+
+![image-20220729170134175](http://cdn.yangdw.cn/img/image-20220729170134175.png)
+
+Etag: 资源的唯一标识(一个字符串)
+
+![image-20220729170328899](http://cdn.yangdw.cn/img/image-20220729170328899.png)
+
+```js
+两者共存的话，
+	会优先使用Etag
+    Last-Modified只能精确到秒级
+	如果资源被重复生成，而内容不变，则Etag更精确
+```
+
+![image-20220729170622333](E:\anzhuang\PicGo\pic\image-20220729170622333.png)
+
+刷新页面,不同刷新操作，不同的缓存策略
+
+```js
+正常操作：强制缓存有效，协商缓存有效
+手动刷新：强制缓存失效，协商缓存有效
+强制刷新：强制缓存失效，协商缓存失效
+```
+
+## HTTPS
+
+http和https区别
+
+```js
+http是明文传输，敏感信息容易被劫持
+https = http + 加密，劫持了也无法解密
+```
+
+
+
+加密方式：
+
+```js
+对称加密 
+	用一个key来对数据进行加密，用同一个key解密
+非对称加密
+	一对key,公钥和私钥，A加密之后，只能用B来解密
+HTTPS同时用到了两种方式
+```
+
+https证书
+
+```js
+中间人攻击
+	使用第三方证书
+    浏览器校验证书
+```
+
+
+
+
 

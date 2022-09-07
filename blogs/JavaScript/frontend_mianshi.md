@@ -89,7 +89,7 @@ IE怪异盒模型
 1. margin纵向重叠的问题
 
     ```js
-    在同一个BFC中，相邻元素的margin-tom和margin-bottom纵向会重叠，合并成margin较大的值。
+    在同一个BFC中，相邻元素的margin-top和margin-bottom纵向会重叠，合并成margin较大的值。
     空白内容的<p> </p> 也会重叠
     ```
 
@@ -109,7 +109,7 @@ IE怪异盒模型
         float不是none
         position是absolute或fixed
         overflow不是visible
-        fisplay是flex  inline-block
+        display是flex  inline-block
     应用：
     	清除浮动
     ```
@@ -178,7 +178,7 @@ BFC（Block Formatting Context），即块级格式化上下文。
 -------
 触发BFC的条件
 1. 浮动float
-2. overflow不为visible，一般为hidden
+2. overflow不为visible，一般为hidden、auto
 3. display的值为flex,inline-block,grid等
 4. position的值为absolute或fixed
 ```
@@ -1620,11 +1620,11 @@ Etag: 资源的唯一标识(一个字符串)
 http和https区别
 
 ```js
-http是明文传输，敏感信息容易被劫持
-https = http + 加密，劫持了也无法解密
+1. HTTPS是HTTP协议的安全版本，HTTP协议的数据传输是明文的，不安全的，HTTPS使用SSL/TLS协议进行了加密处理。
+2. HTTP和HTTPS使用连接方式不同，默认端口也不一样，HTTP是80，HTTPS是443
+3. HTTPS由于需要设计加密以及多次握手，性能不如HTTP
+4. HTTPS需要SSL,SSL证书需要钱
 ```
-
-
 
 加密方式：
 
@@ -1644,7 +1644,37 @@ https证书
     浏览器校验证书
 ```
 
+## 地址栏输入URL回车后发生了什么？
 
 
 
+```js
+1. URL解析
+2. DNS查询
+3. TCP连接
+4. HTTP请求
+5. 响应请求
+6. 页面渲染
+```
+
+URL解析：首先判断输入的是一个合法的URL还是一个待搜索的关键词
+
+DNS查询：本地域名服务器（递归查询）—根域名服务器—顶级域名服务器（迭代查询），最后获取对应的服务器IP地址
+
+TCP连接：确认IP地址后，经历三次握手建立TCP连接。
+
+发送HTTP请求：建立TCP连接后，发送HTTP请求，请求内容包括：请求行，请求头，请求主体
+
+响应请求：服务器接收到浏览器的请求后，处理完成后返回一个HTTP请求，包括状态行，状态头，状态主体。在服务器响应后，由于http默认长连接keep-alive,当页面关闭后，tcp连接则会经过四次挥手完成断开。
+
+页面渲染：浏览器接收到响应的资源后，对资源进行解析：1. 查看响应头的信息，根据不同的指示做对应处理，如重定向，存储cookie等 2. 查看响应头的Content-Type的值，根据不同类型采用不同的解析方式。
+
+## TCP为什么需要三次握手和四次挥手
+
+三次握手
+
+```js
+三次握手是指建立一个TCP连接时，需要客户端和服务器总共发送3个包，
+主要作用是为了确认双方的接收能力和发送能力是否正常。
+```
 
